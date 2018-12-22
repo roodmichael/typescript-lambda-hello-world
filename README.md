@@ -1,4 +1,4 @@
-# Project Title
+## Introduction
 
 A Typescript hello world example for use with AWS Lambda. Includes a unit testing strategy as well as a bundling and multi-stage deploy strategy using AWS CodeBuild. Note, you will need to back into the deploy strategy from the buildspec as the README does not include instructions to setup automated deployments at the time of this writing.
 
