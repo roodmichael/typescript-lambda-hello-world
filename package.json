@@ -1,0 +1,53 @@
+{
+  "name": "typescript-lambda-hello-world",
+  "version": "1.0.0",
+  "description": "A simple hello world example of using Typescript with AWS Lambda. Includes testing, bundling of multiple stages, and buildspec.yml for use with AWS codebuild to automate deployments.",
+  "main": "index.js",
+  "scripts": {
+    "lint": "tslint -c tslint.json src/**/*.ts",
+    "test": "npm run clean_build && tsc && npm run copy_assets && npm run lint && nyc mocha --opts mocha.opts",
+    "clean_build": "rm -rf build/ && rm -f bundle.zip && mkdir build",
+    "copy_package": "cp package.json build/package.json",
+    "copy_modules": "cp -r node_modules build/node_modules",
+    "copy_assets": "npm run copy_package && npm run copy_modules",
+    "bundle": "cd build; zip -r bundle.zip .",
+    "deploy:beta": "npm run test && npm run clean_build && tsc && npm run copy_assets && npm run bundle",
+    "deploy:prod": "tsc && npm run copy_assets && npm run bundle"
+  },
+  "nyc": {
+      "include": [
+          "src/**/*.ts"
+      ],
+      "extension": [
+          ".ts"
+      ],
+      "require": [
+          "ts-node/register"
+      ],
+      "reporter": [
+          "text-summary"
+      ],
+      "sourceMap": true,
+      "instrument": true
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "author": "Mike Rood",
+  "license": "MIT",
+  "dependencies": {
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "8.10.11",
+    "@types/chai": "^4.0.10",
+    "@types/mocha": "^2.2.44",
+    "@types/node": "^10.5.8",
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1",
+    "nyc": "^11.4.1"
+  }
+}
